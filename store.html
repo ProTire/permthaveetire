@@ -485,6 +485,16 @@
             "default": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23111827' stroke='%2310b981' stroke-width='6'/><circle cx='50' cy='50' r='20' fill='none' stroke='%233b82f6' stroke-width='4'/></svg>"
         };
 
+        const fallbackBrandImages = {
+            "Dunlop": "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=500&q=80",
+            "Deestone": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=500&q=80",
+            "Bridgestone": "https://images.unsplash.com/photo-1611245749712-4043b3558c42?auto=format&fit=crop&w=500&q=80",
+            "Goodyear": "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&w=500&q=80",
+            "Yokohama": "https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=500&q=80",
+            "Michelin": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=500&q=80",
+            "default": "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=500&q=80"
+        };
+
         function getBrandImage(brandName) {
             for (let key in brandImages) {
                 if (brandName.toLowerCase().includes(key.toLowerCase())) {
@@ -492,6 +502,16 @@
                 }
             }
             return brandImages["default"];
+        }
+
+        function handleTireError(imgElement, brandName) {
+            for (let key in fallbackBrandImages) {
+                if (brandName.toLowerCase().includes(key.toLowerCase())) {
+                    imgElement.src = fallbackBrandImages[key];
+                    return;
+                }
+            }
+            imgElement.src = fallbackBrandImages["default"];
         }
 
         // Render functions
@@ -516,7 +536,7 @@
                             <span class="brand-code">${b.code}</span>
                         </div>
                         <div class="card-media">
-                            <img src="${img}" alt="${b.name}" onerror="this.src='https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=500&q=80';">
+                            <img src="${img}" alt="${b.name}" onerror="handleTireError(this, '${b.name}')">
                         </div>
                         <p class="card-desc">${b.desc}</p>
                     </div>
