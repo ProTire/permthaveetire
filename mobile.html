@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Permthavee Tire Mobile Hub</title>
+    
+    <!-- PWA Settings -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#080c14">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Permthavee">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23080c14' stroke='%2310b981' stroke-width='8'/><circle cx='50' cy='50' r='20' fill='none' stroke='%233b82f6' stroke-width='6'/><path d='M50 10 L50 30 M50 70 L50 90 M10 50 L30 50 M70 50 L90 50' stroke='%2310b981' stroke-width='6'/></svg>">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #080c14;
+            --nav-bg: rgba(13, 19, 31, 0.95);
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --primary: #10b981;
+            --secondary: #3b82f6;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shopee: #ff5722;
+            --lazada: #3b82f6;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(at 50% 0%, rgba(16, 185, 129, 0.07) 0px, transparent 60%);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Sarabun', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            padding-bottom: calc(75px + var(--safe-bottom));
+        }
+
+        /* Header Style */
+        header {
+            background: rgba(8, 12, 20, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: max(16px, env(safe-area-inset-top));
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        }
+
+        .logo-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .logo-title span {
+            font-size: 9px;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            display: block;
+        }
+
+        .status-badge {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        /* Container & Tabs */
+        .content-container {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Search input */
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--card-border);
+            padding: 14px 16px 14px 44px;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        /* Bottom Nav Style */
+        .bottom-nav {
+            background: var(--nav-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid var(--card-border);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: calc(65px + var(--safe-bottom));
+            padding-bottom: var(--safe-bottom);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 25%;
+            height: 100%;
+            justify-content: center;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 30px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 0 0 4px 4px;
+        }
+
+        /* Cards and Lists */
+        .mobile-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-title-main {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .card-subtitle-small {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 1px;
+        }
+
+        .touch-action-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .btn-touch {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            active-transform: scale(0.95);
+        }
+
+        .btn-touch:active {
+            transform: scale(0.97);
+        }
+
+        .btn-shopee {
+            background: linear-gradient(135deg, #ff743e, #ff5722);
+            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.2);
+        }
+
+        .btn-lazada {
+            background: linear-gradient(135deg, #4f8bf9, #1a56db);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-copy-grey {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* Chips area */
+        .chips-container {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Hide scrollbars for chips */
+        .chips-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chip {
+            background: #1e293b;
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .chip.active {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .store-filter-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 10px;
+            font-size: 13px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s;
+        }
+        .store-filter-btn:hover, .store-filter-btn.active {
+            color: #fff;
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        /* Size lists */
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .size-item {
+            background: #111827;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .size-text {
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+        }
+
+        /* Toast Popup */
+        #toast {
+            position: fixed;
+            bottom: 85px;
+            left: 50%;
+            transform: translate(-50%, 40px);
+            background: #10b981;
+            color: #000;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
+            white-space: nowrap;
+        }
+
+        #toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Text copy panel */
+        .textarea-preview {
+            background: #090d16;
+            border: 1px solid var(--card-border);
+            color: #a5b4fc;
+            padding: 12px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 11px;
+            white-space: pre-wrap;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+        }
+
+        .badge-pwa {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+        .badge-green { background: rgba(16, 185, 129, 0.1); color: var(--primary); border: 1px solid var(--primary); }
+        .badge-orange { background: rgba(255, 87, 34, 0.1); color: #ff5722; border: 1px solid #ff5722; }
+
+        .search-status-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+            padding: 30px 10px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px dashed var(--card-border);
+            border-radius: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-group">
+            <div class="logo-icon">PT</div>
+            <div class="logo-title">
+                <h1>PERMTHAVEE</h1>
+                <span>JUN 2026 UPDATE (D6P)</span>
+            </div>
+        </div>
+        <div class="status-badge">Web App</div>
+    </header>
+
+    <div class="content-container">
+
+        <!-- 1. TAB: BRANDS -->
+        <div id="panel-brands" class="tab-panel active">
+            
+            <div class="search-wrapper">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="brand-input" placeholder="ค้นหาแบรนด์ยางด่วน..." oninput="searchBrandsMobile()">
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 15px;">
+                <button class="store-filter-btn active" onclick="filterMobileStore('sk-brands', this)">แบรนด์ SK Auto</button>
+                <button class="store-filter-btn" onclick="filterMobileStore('other-brands', this)">แบรนด์ร้านค้าอื่นๆ</button>
+            </div>
+
+            <div class="chips-container" id="brand-chips">
+                <!-- Loaded dynamically via JS -->
+            </div>
+
+            <!-- Stores & Vouchers Quick Cards -->
+            <div id="quick-store-cards">
+                <div class="mobile-card" style="border-left: 4px solid var(--primary);">
+                    <div class="card-header-row">
+                        <div>
+                            <span class="card-title-main">Lazada Storefront & Coupons</span>
+                            <div class="card-subtitle-small">หน้าร้านหลัก & คูปองส่วนลดพิเศษ (D6P)</div>
+                        </div>
+                        <span class="badge-pwa badge-green">Lazada</span>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">ลิงก์รวมสำหรับโปรโมทหน้าร้านหลักพร้อมคูปองส่วนลดสูงสุด</p>
+                    <div class="touch-action-row">
+                        <button class="btn-touch btn-lazada" onclick="copyLink('https://s.lazada.co.th/s.ZhgP2S', 'คัดลอกหน้าร้านหลัก Lazada (D6P) สำเร็จ!')">
+                            <i class="fa-solid fa-copy"></i> หน้าร้านหลัก
+                        </button>
+                        <button class="btn-touch btn-copy-grey" onclick="copyLink('https://pages.lazada.co.th/wow/gcp/route/lazada/th/upr_1000345_lazada/channel/th/upr-router/th?lzd_navbar_hidden=true&pha=true&hybrid=1&data_prefetch=true&prefetch_replace=1&at_iframe=1&wh_pid=/lazada/channel/th/voucher/claimvoucher&pha=true&itemId=1', 'คัดลอกช่องเก็บคูปอง Lazada สำเร็จ!')">
+                            <i class="fa-solid fa-gift"></i> เก็บคูปอง
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brands Lists Render -->
+            <div id="brands-list-container">
+                <!-- Javascript renders brand lists here -->
+            </div>
+
+        </div>
+
+        <!-- 2. TAB: SIZES -->
+        <div id="panel-sizes" class="tab-panel">
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 18px; margin-bottom: 8px; color: #fff;">พิกัดยางแยกตามขนาดยาง</h2>
+            <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 20px;">แตะเลือกแอปปลายทางเพื่อคัดลอกลิงก์โปรโมทตามขนาดล้อรถยนต์</p>
+            
+            <div class="size-grid" id="sizes-list-container">
+                <!-- Javascript renders sizes here -->
+            </div>
+        </div>
+
+        <!-- 3. TAB: CAPTIONS -->
+        <div id="panel-captions" class="tab-panel">
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 18px; margin-bottom: 8px; color: #fff;">แคปชั่นโพสต์โฆษณา (D6P)</h2>
+            <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 20px;">คัดลอกชุดคำแคปชั่นโปรโมทยางใหม่ไปประยุกต์ใช้บนโพสต์ในคอมเมนต์ได้ทันที</p>
+            
+            <div class="mobile-card">
+                <div class="card-header-row">
+                    <span class="card-title-main">แคมเปญ: ยางไม่ได้หมดสภาพพร้อมกันทั้ง 4 เส้น</span>
+                    <span class="badge-pwa badge-green">Engage</span>
+                </div>
+                <div class="textarea-preview" id="post-caption-mobile">ยางไม่ได้หมดสภาพพร้อมกันทั้ง 4 เส้น
+แต่มันจะเริ่มจาก
+
+• เสียงดังขึ้น
+• รถไม่นิ่งเหมือนเดิม
+• เบรกแล้วรู้สึก “ยาว”
+
+สิ่งเหล่านี้
+ไม่ได้เกิดจากรถ
+แต่เกิดจาก “การยึดเกาะที่หายไป”
+
+ยางที่ยังไม่แบน
+ไม่ได้แปลว่ายังพร้อมใช้งานเสมอไป
+
+
+ใครกำลังมองหายางใหม่อยู่ดูพิกัดในเมนท์เลย
+
+
+เราไม่ได้ขับรถคนเดียว
+และยางที่ดี
+ไม่ได้ปกป้องแค่รถ
+แต่มันปกป้อง “ชีวิตในรถ”
+
+
+🔥 ยางใหม่ ราคาส่งจากโรงงาน คุ้มสุดในแอป!
+✅ ส่งฟรีทั่วไทย เก็บปลายทางได้
+📍เช็คโปรโมชั่นล่าสุด 
+
+ใครกำลังมองหายางใหม่อยู่ดูพิกัด
+👉 s.lazada.co.th/s.ZhgP2S
+👉 s.shopee.co.th/6pxvVZ5y94
+
+#ยางรถเก๋ง #ยางSUV #ยางกระบะ #ยางจากโรงงาน #เปลี่ยนยาง #ดูแลรถ #รถยนต์ #คนใช้รถ #ขับขี่ปลอดภัย #มั่นใจทุกเส้นทาง #ส่งฟรีทั่วไทย</div>
+                <button class="btn-touch btn-lazada" style="width: 100%;" onclick="copyCaptionMobile('post-caption-mobile', 'คัดลอกแคปชั่นสำเร็จ!')">
+                    <i class="fa-solid fa-copy"></i> คัดลอกข้อความแคปชั่นทั้งหมด
+                </button>
+            </div>
+        </div>
+
+        <!-- 4. TAB: IDEAS -->
+        <div id="panel-ideas" class="tab-panel">
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 18px; margin-bottom: 8px; color: #fff;">AI Visual Image Prompts</h2>
+            <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 20px;">คัดลอก Prompts ภาษาอังกฤษสั่งงาน AI เจนภาพโฆษณายางสไตล์ภาพถ่ายยนต์แบบพรีเมียม 1:1</p>
+            
+            <div class="mobile-card">
+                <div class="card-header-row">
+                    <span class="card-title-main">1. ยาง SUV (เกาะถนนเปียก-วันฝนตก)</span>
+                    <span class="badge-pwa badge-green">DALL-E / MJ</span>
+                </div>
+                <div class="textarea-preview" id="prompt-suv-mob">Emotional cinematic advertising image of an SUV tire driving steadily on wet road, soft rain atmosphere, inside the vehicle a blurred silhouette of family sitting calmly, contrast between risky road and calm interior, symbol of protection, stability, and trust, premium automotive safety advertisement style, no text, no logo, 1:1 aspect ratio, ultra realistic, 8K quality, global automotive brand advertising quality, cinematic lighting, shallow depth of field, color grading in dark blue and gray tone, editorial advertising layout, luxury magazine style</div>
+                <button class="btn-touch btn-copy-grey" style="width: 100%;" onclick="copyCaptionMobile('prompt-suv-mob', 'คัดลอก Prompt SUV สำเร็จ!')">
+                    <i class="fa-solid fa-copy"></i> คัดลอก Prompt สำหรับ SUV
+                </button>
+            </div>
+
+            <div class="mobile-card">
+                <div class="card-header-row">
+                    <span class="card-title-main">2. ยาง Sedan (เบรกนุ่มนวล-กลางคืน)</span>
+                    <span class="badge-pwa badge-green">DALL-E / MJ</span>
+                </div>
+                <div class="textarea-preview" id="prompt-sedan-mob">Ultra-realistic cinematic advertising image of a sedan tire braking smoothly on a wet city road, city lights reflecting on asphalt at night, rain droplets frozen in motion, feeling of calm control and safety, modern sedan silhouette, emotional premium advertising style, symbol of everyday stability and confidence, no text, no logo, square 1:1 format, ultra detailed, 8K, global automotive brand advertising quality, cinematic lighting, shallow depth of field, color grading in dark blue and gray tone, editorial advertising layout, luxury magazine style</div>
+                <button class="btn-touch btn-copy-grey" style="width: 100%;" onclick="copyCaptionMobile('prompt-sedan-mob', 'คัดลอก Prompt Sedan สำเร็จ!')">
+                    <i class="fa-solid fa-copy"></i> คัดลอก Prompt สำหรับรถเก๋ง
+                </button>
+            </div>
+        </div>
+
+        <!-- 5. TAB: SHOPS -->
+        <div id="panel-shops" class="tab-panel">
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 18px; margin-bottom: 8px; color: #fff;">9 ร้านค้ายางรถยนต์สุดฮิต</h2>
+            <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 20px;">คัดลอกลิงก์ร้านขายยางรถยนต์ยอดนิยมใน Shopee และ Lazada</p>
+            
+            <div id="popular-shops-list-container">
+                <!-- Javascript renders popular shops here -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast elements -->
+    <div id="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-txt">คัดลอกข้อความสำเร็จ!</span>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchNavPanel('brands', this)">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>แบรนด์</span>
+        </button>
+        <button class="nav-item" onclick="switchNavPanel('sizes', this)">
+            <i class="fa-solid fa-expand"></i>
+            <span>ขนาด</span>
+        </button>
+        <button class="nav-item" onclick="switchNavPanel('shops', this)">
+            <i class="fa-solid fa-store"></i>
+            <span>ร้านยอดนิยม</span>
+        </button>
+        <button class="nav-item" onclick="switchNavPanel('captions', this)">
+            <i class="fa-solid fa-pen-nib"></i>
+            <span>แคปชั่น</span>
+        </button>
+        <button class="nav-item" onclick="switchNavPanel('ideas', this)">
+            <i class="fa-solid fa-image"></i>
+            <span>ไอเดีย</span>
+        </button>
+    </nav>
+
+    <script>
+        // June 2026 Updated Database (D6P sub_aff_id campaign)
+        const updatedBrands = [
+            { name: "Dunlop (ดันลอป)", code: "AppDUNLOP", lazada: "https://s.lazada.co.th/s.Z2rmYE?cc", shopee: "https://s.shopee.co.th/4Aun5IvrHN", type: "sk-brands" },
+            { name: "Deestone (ดีสโตน)", code: "AppDEESTONE", lazada: "https://s.lazada.co.th/s.Zhdeok", shopee: "https://s.shopee.co.th/3LLg5rbz2D", type: "sk-brands" },
+            { name: "Bridgestone (บริดจสโตน)", code: "AppBRIDGESTONE", lazada: "https://s.lazada.co.th/s.Z2rNhV?cc", shopee: "https://s.shopee.co.th/7fUfGBogX0", type: "sk-brands" },
+            { name: "Goodyear (กู๊ดเยียร์)", code: "AppGOODYEAR", lazada: "https://s.lazada.co.th/s.Z2rNMm?cc", shopee: "https://s.shopee.co.th/5q3150jjhg", type: "sk-brands" },
+            { name: "Yokohama (โยโกฮาม่า)", code: "AppYOKOHAMA", lazada: "https://s.lazada.co.th/s.Z2IZSh?cc", shopee: "https://s.shopee.co.th/2B66M9bY1K", type: "sk-brands" },
+            { name: "Blackhawk (แบล็คฮอว์ก)", code: "AppBLACKHAWK", lazada: "https://s.lazada.co.th/s.Z2IZ9b?cc", shopee: "https://s.shopee.co.th/10u8y3RzTq", type: "sk-brands" },
+            { name: "Dayton (เดย์ตัน)", code: "AppDAYTON", lazada: "https://s.lazada.co.th/s.Z2IZoP?cc", shopee: "https://s.shopee.co.th/9KYGQlj7q4", type: "sk-brands" },
+            { name: "Hankook (แฮนคุก)", code: "AppHANKOOK", lazada: "https://s.lazada.co.th/s.Z2IZrB?cc", shopee: "https://s.shopee.co.th/5fey43NlYH", type: "sk-brands" },
+            { name: "Goodride (กู๊ดไรด์)", code: "AppGOODRIDE", lazada: "https://s.lazada.co.th/s.Z2IZvv?cc", shopee: "https://s.shopee.co.th/1g8pIj6Ugy", type: "sk-brands" },
+            { name: "Triangle (ไตรแองเกิล)", code: "AppTRIANGLE", lazada: "https://s.lazada.co.th/s.Z2I0aq?cc", shopee: "https://s.shopee.co.th/2LOW5yyxFy", type: "sk-brands" },
+            { name: "Falken (ฟอลเกน)", code: "AppFALKEN", lazada: "https://s.lazada.co.th/s.Z2I0X2?cc", shopee: "https://s.shopee.co.th/gGI6wiyTC", type: "sk-brands" },
+            { name: "Kumho (คึมโฮ)", code: "AppKUMHO", lazada: "https://s.lazada.co.th/s.Z2I04b?cc", shopee: "https://s.shopee.co.th/7fQ2Rq03ZX", type: "sk-brands" },
+            { name: "Arisun (อาริซัน)", code: "AppARISUN", lazada: "https://s.lazada.co.th/s.ZTRhfv", shopee: "https://s.shopee.co.th/10bJlsPdI", type: "sk-brands" },
+            { name: "Dcenti (ดีเซนติ)", code: "AppDCENTI", lazada: "https://s.lazada.co.th/s.Z2IbS5?cc", shopee: "https://s.shopee.co.th/3fttgXa4Su", type: "sk-brands" },
+            { name: "Nexen (เน็กเซ็น)", code: "AppNEXEN", lazada: "https://s.lazada.co.th/s.Z2IbPV?cc", shopee: "https://s.shopee.co.th/AUoquMU6IU", type: "sk-brands" },
+            { name: "BFGoodrich (บีเอฟกู๊ดริช)", code: "AppBFGoodrich", lazada: "https://s.lazada.co.th/s.Z2Iboe?cc", shopee: "https://s.shopee.co.th/3fttgbciXw", type: "other-brands" },
+            { name: "NAZZ (แนสซ์)", code: "AppNAZZ", lazada: "https://c.lazada.co.th/t/c.2lfGS5?sub_aff_id=D3P", shopee: "https://s.shopee.co.th/4qAUA0jabm", type: "other-brands" },
+            { name: "Michelin (มิชลิน)", code: "AppMICHELIN", lazada: "https://s.lazada.co.th/s.zLT47?cc", shopee: "https://s.shopee.co.th/5AihBJN3PE", type: "other-brands" },
+            { name: "XCD2 ขอบ 14", code: "AppXCD2_14", lazada: "https://s.lazada.co.th/s.zLEqx?cc", shopee: "https://s.shopee.co.th/70ALe7WZvr", type: "other-brands" },
+            { name: "XCD2 ขอบ 15", code: "AppXCD2_15", lazada: "https://s.lazada.co.th/s.zLEHc?cc", shopee: "https://s.shopee.co.th/50PHGYoQU5", type: "other-brands" },
+            { name: "Sumaxx (ซูแมกซ์)", code: "SUMAXX", lazada: "https://s.lazada.co.th/s.BllRP?cc", shopee: "https://s.shopee.co.th/20kCIpMFIh", type: "other-brands" },
+            { name: "Nitto (นิตโตะ)", code: "NITTO", lazada: "https://s.lazada.co.th/s.BlljC?cc", shopee: "https://s.shopee.co.th/5AhE4uIEUN", type: "other-brands" },
+            { name: "Toyo (โตโย)", code: "TOYO", lazada: "https://s.lazada.co.th/s.BllP2?cc", shopee: "https://s.shopee.co.th/8Uxg36LFcx", type: "other-brands" },
+            { name: "Landsail (แลนด์เซล)", code: "LANDSAIL", lazada: "https://s.lazada.co.th/s.BllON?cc", shopee: "https://s.shopee.co.th/50Nnsj72gx", type: "other-brands" }
+        ];
+
+        const updatedSizes = [
+            { size: "185/60R15", lazada: "https://s.lazada.co.th/s.ZhbmNR?c=a&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/5AphjsK8dI" },
+            { size: "195/55R15", lazada: "https://s.lazada.co.th/s.ZhW0iS?c=a&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" }, // Fallback Shopee storefront
+            { size: "195/60R15", lazada: "https://s.lazada.co.th/s.ZhbPNg?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/8KmjVlcVE8" },
+            { size: "205/55R16", lazada: "https://s.lazada.co.th/s.ZhWZEV?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "215/70R15", lazada: "https://s.lazada.co.th/s.ZhWZBC?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "245/45R18", lazada: "https://s.lazada.co.th/s.ZhWZNS?c=a&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "265/60R18", lazada: "https://s.lazada.co.th/s.ZhWZL1?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "265/65R17", lazada: "https://s.lazada.co.th/s.ZhWZlR?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "30x9.5R15", lazada: "https://s.lazada.co.th/s.ZhW04Y?c=a&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "31x10.5R15", lazada: "https://s.lazada.co.th/s.ZhW0Xq?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" }
+        ];
+
+        const popularShops = [
+            { name: "SK AUTO SERVICE", lazada: "s.lazada.co.th/s.ZhgP2S", shopee: "s.shopee.co.th/6pxvVZ5y94" },
+            { name: "KODANGYANG", lazada: "s.lazada.co.th/s.ZhT32Y", shopee: "s.shopee.co.th/8KkPxrE8k6" },
+            { name: "B-Quik", lazada: "s.lazada.co.th/s.ZhT3if", shopee: "s.shopee.co.th/30kdO1jQ95" },
+            { name: "SPEED109", lazada: "s.lazada.co.th/s.ZhT3IR", shopee: "s.shopee.co.th/10joitzfct" },
+            { name: "J.S. Auto", lazada: "s.lazada.co.th/s.ZhT3Ah", shopee: "s.shopee.co.th/5VFN0hHsJn" },
+            { name: "Bravostone", lazada: "s.lazada.co.th/s.ZhTe2Y", shopee: "s.shopee.co.th/5AjW8IDYcC" },
+            { name: "YINGTHAWEE AUTO TIRE", lazada: "s.lazada.co.th/s.ZhTekr", shopee: "s.shopee.co.th/8pSg3GJJx4" },
+            { name: "KENKING", lazada: "s.lazada.co.th/s.ZhTeIN", shopee: "s.shopee.co.th/5VCE5oB7sp" },
+            { name: "TIRE-OFF", lazada: "s.lazada.co.th/s.ZhTewj", shopee: "s.shopee.co.th/AUau2YcFwG" }
+        ];
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log('PWA Service Worker Registered!'))
+                .catch(err => console.error('Service Worker Error', err));
+        }
+
+        let activeMobileStoreType = 'sk-brands';
+
+        // Google Sheet CSV Links (เปลี่ยนมาดึงจากไฟล์ตารางในเครื่องแบบออฟไลน์)
+        const GOOGLE_SHEET_LINKS = {
+            brands: "brands.csv", // ลิงก์ CSV แท็บ Brands
+            sizes: "sizes.csv",   // ลิงก์ CSV แท็บ Sizes
+            shops: "shops.csv"    // ลิงก์ CSV แท็บ Shops
+        };
+
+        // CSV parsing function
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n');
+            if (lines.length === 0) return [];
+            
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+            const result = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                const currentLine = [];
+                let inQuotes = false;
+                let currentValue = '';
+                
+                for (let j = 0; j < lines[i].length; j++) {
+                    const char = lines[i][j];
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        currentLine.push(currentValue.trim());
+                        currentValue = '';
+                    } else {
+                        currentValue += char;
+                    }
+                }
+                currentLine.push(currentValue.trim());
+                
+                const obj = {};
+                headers.forEach((header, index) => {
+                    let val = currentLine[index] || '';
+                    obj[header] = val.replace(/^"|"$/g, '').trim();
+                });
+                result.push(obj);
+            }
+            return result;
+        }
+
+        // Fetch data from Google Sheets with fallbacks
+        async function loadSheetDataMobile() {
+            // Load Brands
+            if (GOOGLE_SHEET_LINKS.brands) {
+                try {
+                    const res = await fetch(GOOGLE_SHEET_LINKS.brands);
+                    if (res.ok) {
+                        const csv = await res.text();
+                        const parsed = parseCSV(csv);
+                        if (parsed.length > 0 && parsed[0].name) {
+                            updatedBrands.length = 0; // Clear and replace
+                            parsed.forEach(p => updatedBrands.push(p));
+                            console.log('Successfully synced Brands from Google Sheets on Mobile.');
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to sync Brands on Mobile, using fallback database.', e);
+                }
+            }
+
+            // Load Sizes
+            if (GOOGLE_SHEET_LINKS.sizes) {
+                try {
+                    const res = await fetch(GOOGLE_SHEET_LINKS.sizes);
+                    if (res.ok) {
+                        const csv = await res.text();
+                        const parsed = parseCSV(csv);
+                        if (parsed.length > 0 && parsed[0].size) {
+                            updatedSizes.length = 0;
+                            parsed.forEach(p => updatedSizes.push(p));
+                            console.log('Successfully synced Sizes from Google Sheets on Mobile.');
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to sync Sizes on Mobile, using fallback database.', e);
+                }
+            }
+
+            // Load Shops
+            if (GOOGLE_SHEET_LINKS.shops) {
+                try {
+                    const res = await fetch(GOOGLE_SHEET_LINKS.shops);
+                    if (res.ok) {
+                        const csv = await res.text();
+                        const parsed = parseCSV(csv);
+                        if (parsed.length > 0 && parsed[0].name) {
+                            popularShops.length = 0;
+                            parsed.forEach(p => popularShops.push(p));
+                            console.log('Successfully synced Shops from Google Sheets on Mobile.');
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to sync Shops on Mobile, using fallback database.', e);
+                }
+            }
+
+            // Render all UI elements
+            renderMobileChips(activeMobileStoreType);
+            searchBrandsMobile();
+            renderSizesMobile(updatedSizes);
+            renderPopularShopsMobile(popularShops);
+        }
+
+        // On window load
+        window.onload = function() {
+            loadSheetDataMobile();
+        };
+
+        function renderMobileChips(type) {
+            const container = document.getElementById('brand-chips');
+            container.innerHTML = '';
+            
+            // Add 'All' chip
+            const allChip = document.createElement('div');
+            allChip.className = 'chip active';
+            allChip.innerText = 'ทั้งหมด';
+            allChip.onclick = function() { selectChip('', allChip); };
+            container.appendChild(allChip);
+            
+            let brandNames = [];
+            if (type === 'sk-brands') {
+                brandNames = ['Bridgestone', 'Yokohama', 'Dunlop', 'Deestone', 'Goodyear'];
+            } else {
+                brandNames = ['Michelin', 'BFGoodrich', 'Sumaxx', 'Nitto', 'Toyo', 'Landsail'];
+            }
+            
+            brandNames.forEach(name => {
+                const chip = document.createElement('div');
+                chip.className = 'chip';
+                chip.innerText = name;
+                chip.onclick = function() { selectChip(name, chip); };
+                container.appendChild(chip);
+            });
+        }
+
+        function filterMobileStore(type, el) {
+            document.querySelectorAll('.store-filter-btn').forEach(btn => btn.classList.remove('active'));
+            el.classList.add('active');
+            
+            activeMobileStoreType = type;
+            document.getElementById('brand-input').value = '';
+            renderMobileChips(type);
+            searchBrandsMobile();
+        }
+
+        // Brand tire images mapping using actual files from "Banners & Creatives" folder
+        const brandImages = {
+            "Dunlop (ดันลอป)": "Banners & Creatives/Dunlop Grandtrek AT5.webp",
+            "Deestone (ดีสโตน)": "Banners & Creatives/deestone-premium-tourer-ra01-b-aaa-2__38008.jpg",
+            "Bridgestone (บริดจสโตน)": "Banners & Creatives/ECOPIA_EP150.jpg",
+            "Goodyear (กู๊ดเยียร์)": "Banners & Creatives/Goodyear Wrangler AT SilentTrac.jpg",
+            "Yokohama (โยโกฮาม่า)": "Banners & Creatives/YOKOHAMA GEOLANDAR X-AT.png",
+            "Triangle (ไตรแองเกิล)": "Banners & Creatives/TRIANGLE EffeXSport TH202.png",
+            "Goodride (กู๊ดไรด์)": "Banners & Creatives/goodride-sa-37-f-f-l462x600-sk7.png",
+            "Michelin (มิชลิน)": "Banners & Creatives/ECOPIA_EP150_side.jpg",
+            "BFGoodrich (บีเอฟกู๊ดริช)": "Banners & Creatives/DUELER ALL-TERRAIN A:T002.png",
+            "default": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23111827' stroke='%2310b981' stroke-width='6'/><circle cx='50' cy='50' r='20' fill='none' stroke='%233b82f6' stroke-width='4'/></svg>"
+        };
+
+        function getBrandImage(brandName) {
+            for (let key in brandImages) {
+                if (brandName.toLowerCase().includes(key.split(' ')[0].toLowerCase())) {
+                    return brandImages[key];
+                }
+            }
+            return brandImages["default"];
+        }
+
+        // Render functions
+        function renderBrandsMobile(brands) {
+            const container = document.getElementById('brands-list-container');
+            container.innerHTML = '';
+            
+            if(brands.length === 0) {
+                container.innerHTML = `
+                    <div class="search-status-text">
+                        <i class="fa-solid fa-face-frown" style="font-size: 20px; display: block; margin-bottom: 8px; color: var(--danger);"></i>
+                        ไม่พบยี่ห้อยางที่ค้นหา
+                    </div>
+                `;
+                return;
+            }
+
+            brands.forEach(brand => {
+                const card = document.createElement('div');
+                card.className = 'mobile-card';
+                const imgPath = getBrandImage(brand.name);
+                
+                card.innerHTML = `
+                    <div class="card-header-row">
+                        <div>
+                            <span class="card-title-main">${brand.name}</span>
+                            <div class="card-subtitle-small">${brand.code}</div>
+                        </div>
+                        <span class="badge-pwa badge-green">${brand.type === 'sk-brands' ? 'SK Auto' : 'ร้านอื่น'}</span>
+                    </div>
+                    <div class="card-media" style="width: 100%; height: 120px; overflow: hidden; border-radius: 10px; margin-bottom: 12px; background: #0b0f19; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center;">
+                        <img src="${imgPath}" alt="${brand.name}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                    </div>
+                    <div class="touch-action-row">
+                        <button class="btn-touch btn-shopee" onclick="copyLink('${brand.shopee}', 'คัดลอก Shopee: ${brand.name} แล้ว!')">
+                            <i class="fa-solid fa-copy"></i> Shopee
+                        </button>
+                        <button class="btn-touch btn-lazada" onclick="copyLink('${brand.lazada}', 'คัดลอก Lazada: ${brand.name} แล้ว!')">
+                            <i class="fa-solid fa-copy"></i> Lazada
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderSizesMobile(sizes) {
+            const container = document.getElementById('sizes-list-container');
+            container.innerHTML = '';
+            sizes.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'size-item';
+                card.innerHTML = `
+                    <span class="size-text">${item.size}</span>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <button class="btn-touch btn-shopee" style="padding: 10px; font-size: 11px;" onclick="copyLink('${item.shopee}', 'คัดลอกลิงก์ Shopee ขนาด ${item.size}!')">
+                            <i class="fa-solid fa-copy"></i> Shopee
+                        </button>
+                        <button class="btn-touch btn-lazada" style="padding: 10px; font-size: 11px;" onclick="copyLink('${item.lazada}', 'คัดลอกลิงก์ Lazada ขนาด ${item.size}!')">
+                            <i class="fa-solid fa-copy"></i> Lazada
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderPopularShopsMobile(shops) {
+            const container = document.getElementById('popular-shops-list-container');
+            if (!container) return;
+            container.innerHTML = '';
+            shops.forEach(shop => {
+                const card = document.createElement('div');
+                card.className = 'mobile-card';
+                const shopeeLink = shop.shopee.startsWith('http') ? shop.shopee : 'https://' + shop.shopee;
+                const lazadaLink = shop.lazada.startsWith('http') ? shop.lazada : 'https://' + shop.lazada;
+                card.innerHTML = `
+                    <div class="card-header-row">
+                        <div>
+                            <span class="card-title-main">${shop.name}</span>
+                            <div class="card-subtitle-small">9 ร้านขายยางยอดนิยม</div>
+                        </div>
+                        <span class="badge-pwa badge-orange">Popular</span>
+                    </div>
+                    <div class="touch-action-row">
+                        <button class="btn-touch btn-shopee" onclick="copyLink('${shopeeLink}', 'คัดลอก Shopee: ${shop.name} แล้ว!')">
+                            <i class="fa-solid fa-copy"></i> Shopee
+                        </button>
+                        <button class="btn-touch btn-lazada" onclick="copyLink('${lazadaLink}', 'คัดลอก Lazada: ${shop.name} แล้ว!')">
+                            <i class="fa-solid fa-copy"></i> Lazada
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Search brands logic
+        function searchBrandsMobile() {
+            const query = document.getElementById('brand-input').value.toLowerCase().trim();
+            
+            // Unselect all chips if typing manually
+            if (query !== '' && !document.querySelector('.chip.active')) {
+                document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            }
+
+            const filtered = updatedBrands.filter(b => {
+                const matchesSearch = b.name.toLowerCase().includes(query) || b.code.toLowerCase().includes(query);
+                const matchesType = b.type === activeMobileStoreType;
+                return matchesSearch && matchesType;
+            });
+            renderBrandsMobile(filtered);
+        }
+
+        // Chip selection logic
+        function selectChip(val, el) {
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            
+            document.getElementById('brand-input').value = val;
+            searchBrandsMobile();
+        }
+
+        // Clipboard Copy & Feedbacks
+        function copyLink(url, msg) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(() => {
+                    triggerHapticFeedback();
+                    showToastMobile(msg);
+                }).catch(err => {
+                    fallbackCopyMobile(url, msg);
+                });
+            } else {
+                fallbackCopyMobile(url, msg);
+            }
+        }
+
+        function copyCaptionMobile(elementId, msg) {
+            const text = document.getElementById(elementId).innerText || document.getElementById(elementId).value;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    triggerHapticFeedback();
+                    showToastMobile(msg);
+                }).catch(err => {
+                    fallbackCopyMobile(text, msg);
+                });
+            } else {
+                fallbackCopyMobile(text, msg);
+            }
+        }
+
+        function fallbackCopyMobile(text, msg) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    triggerHapticFeedback();
+                    showToastMobile(msg);
+                } else {
+                    // Fallback to prompt if execCommand fails
+                    window.prompt("คัดลอกลิงก์ที่นี่:", text);
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                window.prompt("คัดลอกลิงก์ที่นี่:", text);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Simulated Haptic Feedback (Vibration API)
+        function triggerHapticFeedback() {
+            if (navigator.vibrate) {
+                navigator.vibrate(50); // Vibrate for 50ms
+            }
+        }
+
+        function showToastMobile(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-txt').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // Bottom Nav switcher
+        function switchNavPanel(panelName, tabEl) {
+            // Remove active classes
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+            
+            // Add active class
+            tabEl.classList.add('active');
+            document.getElementById('panel-' + panelName).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+</body>
+</html>

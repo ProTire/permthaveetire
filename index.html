@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERMTHAVEE TIRE - แดชบอร์ดจัดการข้อมูลและสื่อการตลาด (D6P Update)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #030712;
+            --card-bg: rgba(17, 24, 39, 0.45);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --primary: #10b981; /* Electric Green */
+            --primary-glow: rgba(16, 185, 129, 0.4);
+            --secondary: #06b6d4; /* Brand Cyan */
+            --secondary-glow: rgba(6, 182, 212, 0.4);
+            --accent: #8b5cf6; /* Purple */
+            --warning: #f59e0b; /* Amber */
+            --danger: #ef4444; /* Red */
+            --shopee: #ff5722;
+            --lazada: #06b6d4;
+            --lazada-gradient: linear-gradient(135deg, #000080, #ff4500);
+            --font-display: 'Outfit', 'Sarabun', sans-serif;
+            --font-body: 'Outfit', 'Sarabun', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.04) 0px, transparent 60%);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            padding-bottom: 60px;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232d45;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2d3b5a;
+        }
+
+        header {
+            background: rgba(11, 17, 30, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 20px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 800;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .logo-text h1 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-text span {
+            font-size: 11px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .search-container {
+            position: relative;
+            width: 350px;
+        }
+
+        .search-container input {
+            width: 100%;
+            background: #111827;
+            border: 1px solid var(--card-border);
+            padding: 10px 15px 10px 40px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 14px;
+            font-family: var(--font-body);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            padding: 0 20px;
+        }
+
+        /* Hero Banner Section */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: var(--primary);
+            filter: blur(120px);
+            opacity: 0.15;
+            top: -100px;
+            right: -50px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 70%;
+        }
+
+        .hero-badge {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .hero-content h2 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .hero-content p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 20px;
+            z-index: 2;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 15px 25px;
+            border-radius: 16px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .stat-val {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 15px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 12px 24px;
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tab-btn.active {
+            color: #fff;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.05);
+        }
+
+        .tab-btn.active i {
+            color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 25px;
+        }
+
+        /* Card Designs */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            border-color: rgba(6, 182, 212, 0.35);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px -5px rgba(6, 182, 212, 0.15), 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .card-title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .card h3 {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .card-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .card-body {
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        /* Link Buttons */
+        .action-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-shopee {
+            background: rgba(255, 87, 34, 0.15);
+            color: #ff5722;
+            border: 1px solid rgba(255, 87, 34, 0.25);
+        }
+
+        .btn-shopee:hover {
+            background: #ff5722;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 87, 34, 0.4);
+        }
+
+        .btn-lazada {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.25);
+        }
+
+        .btn-lazada:hover {
+            background: #3b82f6;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-copy:hover {
+            background: var(--text-primary);
+            color: #000;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #10b981;
+            color: #000;
+            font-weight: 700;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-family: var(--font-display);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Sub-tab selection */
+        .sub-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .sub-tab-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: var(--font-display);
+        }
+
+        .sub-tab-btn:hover, .sub-tab-btn.active {
+            color: #fff;
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        /* Clipboard card & Prompt Area */
+        .copy-text-area {
+            background: #0d131f;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #a5b4fc;
+            max-height: 180px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .badge-green { background: rgba(16, 185, 129, 0.15); color: var(--primary); border: 1px solid var(--primary); }
+        .badge-blue { background: rgba(59, 130, 246, 0.15); color: var(--secondary); border: 1px solid var(--secondary); }
+        .badge-purple { background: rgba(139, 92, 246, 0.15); color: var(--accent); border: 1px solid var(--accent); }
+        .badge-amber { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid var(--warning); }
+        .badge-red { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid var(--danger); }
+
+        /* Guide brand grids */
+        .guide-brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .guide-highlights {
+            list-style-type: none;
+            margin-top: 12px;
+        }
+
+        .guide-highlights li {
+            position: relative;
+            padding-left: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .guide-highlights li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 5px;
+            font-size: 16px;
+            top: -2px;
+        }
+
+        /* Journey visual block */
+        .journey-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .journey-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .journey-steps {
+                grid-template-columns: 1fr;
+            }
+            .hero-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .hero-content {
+                max-width: 100%;
+            }
+        }
+
+        .journey-step {
+            background: #0d131f;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .journey-step.step-green { border-left: 4px solid var(--primary); }
+        .journey-step.step-warning { border-left: 4px solid var(--warning); }
+        .journey-step.step-danger { border-left: 4px solid var(--danger); }
+
+        .step-num {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        /* Alert and info blocks */
+        .alert-box {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .alert-box i {
+            margin-top: 3px;
+        }
+
+        .quick-copy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .copy-card {
+            background: #111827;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copy-card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .copy-card-info span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .copy-card-info small {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .circle-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .circle-btn:hover {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fa-solid fa-tire"></i>PT</div>
+            <div class="logo-text">
+                <h1>PERMTHAVEE TIRE</h1>
+                <span>Affiliate Hub (D6P Update)</span>
+            </div>
+        </div>
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="global-search" placeholder="ค้นหาแบรนด์ยาง ลิงก์ร้านค้า หรือข้อมูล..." onkeyup="filterContent()">
+        </div>
+    </header>
+
+    <div class="main-container">
+        
+        <!-- Hero Section -->
+        <div class="hero-banner">
+            <div class="hero-content">
+                <span class="hero-badge"><i class="fa-solid fa-sparkles"></i> ข้อมูลแคมเปญล่าสุด มิถุนายน 2026 (D6P)</span>
+                <h2>คลังข้อมูลรวมและเครื่องมือการตลาด</h2>
+                <p>รวบรวมข้อมูลลิงก์ผู้แนะนำ (Affiliate Links) จากช่องทางขายต่างๆ ของร้านพันธมิตร SK AUTO SERVICE และแบรนด์ยางชั้นนำ พร้อมโครงร่างโพสต์แนวทางการตลาดเพื่อการนำข้อมูลไปโพสต์หรือส่งต่อได้ทันที</p>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-val">9</div>
+                    <div class="stat-label">ร้านค้าแนะนำ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val">24</div>
+                    <div class="stat-label">แบรนด์ยาง</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val">10</div>
+                    <div class="stat-label">ขนาดยางยอดฮิต</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert -->
+        <div class="alert-box">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <div>
+                <strong>แคมเปญอัปเดต (D6P JUN 2026):</strong> ข้อมูลลิงก์ทั้งหมดได้รับการเชื่อมโยงไปยังรหัสแคมเปญล่าสุดและตรวจสอบโปรโตคอลเรียบร้อยแล้ว
+            </div>
+        </div>
+
+        <!-- Main Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('tab-affiliate')">
+                <i class="fa-solid fa-link"></i> แหล่งลิงก์ Affiliate
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-sizes-panel')">
+                <i class="fa-solid fa-expand"></i> ลิงก์แยกตามขนาดยาง
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-copywriting')">
+                <i class="fa-solid fa-pen-nib"></i> แคปชั่นโซเชียลมีเดีย
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-visual')">
+                <i class="fa-solid fa-palette"></i> แนวทาง Ads & Visual Prompts
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-guide')">
+                <i class="fa-solid fa-book-open"></i> คู่มือการเลือกยางรถยนต์
+            </button>
+        </div>
+
+        <!-- Toast notification elements -->
+        <div id="toast">
+            <i class="fa-solid fa-circle-check"></i>
+            <span id="toast-message">คัดลอกข้อความสำเร็จ!</span>
+        </div>
+
+        <!-- 1. TAB: AFFILIATE -->
+        <div id="tab-affiliate" class="tab-content active">
+            
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="filterAffiliateCategory('all')">ทั้งหมด</button>
+                <button class="sub-tab-btn" onclick="filterAffiliateCategory('sk-main')">SK Auto หน้าร้านหลัก & คูปอง</button>
+                <button class="sub-tab-btn" onclick="filterAffiliateCategory('sk-category')">SK Auto แบ่งตามประเภทสินค้า</button>
+                <button class="sub-tab-btn" onclick="filterAffiliateCategory('sk-brands')">SK Auto ยางแยกตามแบรนด์</button>
+                <button class="sub-tab-btn" onclick="filterAffiliateCategory('other-brands')">แบรนด์ร้านค้าอื่นๆ</button>
+                <button class="sub-tab-btn" onclick="filterAffiliateCategory('popular-shops')">9 ร้านค้ายางรถยนต์สุดฮิต</button>
+            </div>
+
+            <!-- ค้นหาแบรนด์ยางทันใจ (Instant Brand Link Finder) -->
+            <div class="brand-search-box-container" style="background: rgba(16, 24, 48, 0.6); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 16px; padding: 24px; margin-bottom: 30px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);">
+                <h3 style="font-family: var(--font-display); font-size: 18px; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-magnifying-glass" style="color: var(--primary);"></i> ค้นหาแบรนด์ยางทันใจ (Instant Brand Link Finder)
+                </h3>
+                <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 16px;">
+                    พิมพ์ชื่อแบรนด์ยาง หรือกดปุ่มด้านล่าง ระบบจะแสดงตัวเลือกลิงก์ Shopee และ Lazada เพื่อคัดลอกไปใช้งานได้ทันที
+                </p>
+                <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center;">
+                    <div style="position: relative; flex: 1; min-width: 250px;">
+                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                        <input type="text" id="brand-quick-search" placeholder="พิมพ์ชื่อยี่ห้อยาง เช่น Bridgestone, Michelin, Dunlop..." 
+                               style="width: 100%; background: #0b0f19; border: 1px solid var(--card-border); padding: 12px 16px 12px 42px; border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s;" 
+                               oninput="instantBrandSearch()"
+                               onfocus="this.style.borderColor=var(--primary)">
+                    </div>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <button class="sub-tab-btn" style="padding: 6px 12px; font-size: 12px;" onclick="setBrandSearch('Bridgestone')">Bridgestone</button>
+                        <button class="sub-tab-btn" style="padding: 6px 12px; font-size: 12px;" onclick="setBrandSearch('Michelin')">Michelin</button>
+                        <button class="sub-tab-btn" style="padding: 6px 12px; font-size: 12px;" onclick="setBrandSearch('Yokohama')">Yokohama</button>
+                        <button class="sub-tab-btn" style="padding: 6px 12px; font-size: 12px;" onclick="setBrandSearch('Dunlop')">Dunlop</button>
+                        <button class="sub-tab-btn" style="padding: 6px 12px; font-size: 12px;" onclick="setBrandSearch('Deestone')">Deestone</button>
+                        <button class="sub-tab-btn" style="padding: 6px 12px; font-size: 12px; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171;" onclick="setBrandSearch('')">ล้างค้นหา</button>
+                    </div>
+                </div>
+                
+                <!-- ผลการค้นหาด่วน -->
+                <div id="instant-brand-results" class="quick-copy-grid" style="margin-bottom: 0;">
+                    <!-- แสดงรายการแบรนด์ด่วนที่นี่ -->
+                </div>
+            </div>
+
+            <!-- SK Auto Main Storefront & Vouchers Quick Copy Area -->
+            <div class="affiliate-section" id="sec-sk-main">
+                <h2 style="font-family: var(--font-display); margin-bottom: 20px; color: #fff;">
+                    <i class="fa-solid fa-store" style="color: var(--primary); margin-right: 10px;"></i> SK Auto Service หน้าร้านหลัก & คูปอง
+                </h2>
+                <div class="quick-copy-grid">
+                    <div class="copy-card" data-search="sk auto storefront lazada">
+                        <div class="copy-card-info">
+                            <span>Lazada Storefront (D6P)</span>
+                            <small>หน้าร้านหลัก SK Auto</small>
+                        </div>
+                        <button class="circle-btn" onclick="copyToClipboard('https://s.lazada.co.th/s.ZhgP2S', 'คัดลอกลิงก์หน้าร้านหลัก Lazada สำเร็จ!')">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="copy-card" data-search="lazada voucher claimcoupon">
+                        <div class="copy-card-info">
+                            <span>Lazada Voucher Channel</span>
+                            <small>เก็บคูปองส่วนลดสูงสุด</small>
+                        </div>
+                        <button class="circle-btn" onclick="copyToClipboard('https://pages.lazada.co.th/wow/gcp/route/lazada/th/upr_1000345_lazada/channel/th/upr-router/th?lzd_navbar_hidden=true&pha=true&hybrid=1&data_prefetch=true&prefetch_replace=1&at_iframe=1&wh_pid=/lazada/channel/th/voucher/claimvoucher&pha=true&itemId=1', 'คัดลอกลิงก์หน้าคูปองหลักสำเร็จ!')">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="copy-card" data-search="all products item">
+                        <div class="copy-card-info">
+                            <span>All Products Link 1</span>
+                            <small>รายการสินค้าทั้งหมด</small>
+                        </div>
+                        <button class="circle-btn" onclick="copyToClipboard('https://s.lazada.co.th/l.edSn', 'คัดลอกลิงก์สินค้าทั้งหมดสำเร็จ!')">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="copy-card" data-search="follow shop lazada">
+                        <div class="copy-card-info">
+                            <span>Follow Shop Link 1</span>
+                            <small>ติดตามร้านค้ารับคูปอง</small>
+                        </div>
+                        <button class="circle-btn" onclick="copyToClipboard('https://s.lazada.co.th/l.edgp', 'คัดลอกลิงก์ติดตามร้านค้าสำเร็จ!')">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SK Auto Category section -->
+            <div class="affiliate-section" id="sec-sk-category">
+                <h2 style="font-family: var(--font-display); margin-bottom: 20px; color: #fff;">
+                    <i class="fa-solid fa-tags" style="color: var(--secondary); margin-right: 10px;"></i> SK Auto Service แยกตามหมวดหมู่สินค้า
+                </h2>
+                <div class="grid-3" style="margin-bottom: 40px;">
+                    <div class="card" data-search="passenger car tire ยางรถยนต์นั่งส่วนบุคคล">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="card-icon"><i class="fa-solid fa-car"></i></div>
+                                <div>
+                                    <h3>ยางรถยนต์นั่งส่วนบุคคล</h3>
+                                    <span class="card-subtitle">AppPassengerCar</span>
+                                </div>
+                            </div>
+                            <span class="badge badge-green">Lazada</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="font-size: 13px; color: var(--text-secondary);">รวมยางรถเก๋งไซส์ประหยัดและสมรรถนะสูง สำหรับการใช้งานในเมืองและท่องเที่ยวทั่วไป</p>
+                        </div>
+                        <div class="action-row">
+                            <button class="btn btn-copy" onclick="copyToClipboard('https://s.lazada.co.th/l.edSM', 'คัดลอกลิงก์ ยางรถเก๋ง สำเร็จ!')"><i class="fa-solid fa-copy"></i> Copy Link</button>
+                            <a href="https://s.lazada.co.th/l.edSM" target="_blank" class="btn btn-lazada"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดหน้าเว็บ</a>
+                        </div>
+                    </div>
+
+                    <div class="card" data-search="light truck suv ยางรถบรรทุกขนาดเล็ก รถเอสยูวี">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="card-icon"><i class="fa-solid fa-truck-pickup"></i></div>
+                                <div>
+                                    <h3>ยางรถบรรทุกเล็ก & SUV</h3>
+                                    <span class="card-subtitle">AppLightTruck&SUV</span>
+                                </div>
+                            </div>
+                            <span class="badge badge-green">Lazada</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="font-size: 13px; color: var(--text-secondary);">ยางกระบะใช้งานทั่วไป ยาง SUV เน้นความแกร่ง ทนทาน และการรีดน้ำเกาะถนนดีเยียม</p>
+                        </div>
+                        <div class="action-row">
+                            <button class="btn btn-copy" onclick="copyToClipboard('https://s.lazada.co.th/l.edSo', 'คัดลอกลิงก์ ยางกระบะ/SUV สำเร็จ!')"><i class="fa-solid fa-copy"></i> Copy Link</button>
+                            <a href="https://s.lazada.co.th/l.edSo" target="_blank" class="btn btn-lazada"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดหน้าเว็บ</a>
+                        </div>
+                    </div>
+
+                    <div class="card" data-search="commercial truck ยางรถบรรทุกขนาดใหญ่ บรรทุกหนัก">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="card-icon"><i class="fa-solid fa-truck"></i></div>
+                                <div>
+                                    <h3>ยางรถบรรทุกขนาดใหญ่</h3>
+                                    <span class="card-subtitle">AppCommercialTruck</span>
+                                </div>
+                            </div>
+                            <span class="badge badge-green">Lazada</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="font-size: 13px; color: var(--text-secondary);">สำหรับกลุ่มบรรทุกเชิงพาณิชย์ เน้นอายุการใช้งานที่ยาวนาน รองรับแรงกดดันและน้ำหนักที่มาก</p>
+                        </div>
+                        <div class="action-row">
+                            <button class="btn btn-copy" onclick="copyToClipboard('https://s.lazada.co.th/l.edSL', 'คัดลอกลิงก์ ยางรถบรรทุกเชิงพาณิชย์ สำเร็จ!')"><i class="fa-solid fa-copy"></i> Copy Link</button>
+                            <a href="https://s.lazada.co.th/l.edSL" target="_blank" class="btn btn-lazada"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดหน้าเว็บ</a>
+                        </div>
+                    </div>
+
+                    <div class="card" data-search="gas station card บัตรเติมน้ำมัน">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <div class="card-icon"><i class="fa-solid fa-gas-pump"></i></div>
+                                <div>
+                                    <h3>บัตรเติมน้ำมัน / บัตรแทนเงินสด</h3>
+                                    <span class="card-subtitle">AppGas</span>
+                                </div>
+                            </div>
+                            <span class="badge badge-green">Lazada</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="font-size: 13px; color: var(--text-secondary);">บัตรเติมน้ำมันสุดคุ้ม โปรโมชั่นลดพิเศษ สามารถนำไปแลกรับน้ำมันได้ที่ปั๊มน้ำมัน</p>
+                        </div>
+                        <div class="action-row">
+                            <button class="btn btn-copy" onclick="copyToClipboard('https://s.lazada.co.th/l.edSp', 'คัดลอกลิงก์ บัตรน้ำมัน สำเร็จ!')"><i class="fa-solid fa-copy"></i> Copy Link</button>
+                            <a href="https://s.lazada.co.th/l.edSp" target="_blank" class="btn btn-lazada"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดหน้าเว็บ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SK Auto Brands section -->
+            <div class="affiliate-section" id="sec-sk-brands">
+                <h2 style="font-family: var(--font-display); margin-bottom: 20px; color: #fff;">
+                    <i class="fa-solid fa-tags" style="color: var(--accent); margin-right: 10px;"></i> SK Auto Service ลิงก์ Affiliate แยกตามแบรนด์ยาง
+                </h2>
+                <div class="grid-3" id="brand-links-container">
+                    <!-- Loaded dynamically via Javascript -->
+                </div>
+            </div>
+
+            <!-- Other Brands section -->
+            <div class="affiliate-section" id="sec-other-brands" style="margin-top: 40px;">
+                <h2 style="font-family: var(--font-display); margin-bottom: 20px; color: #fff;">
+                    <i class="fa-solid fa-tags" style="color: var(--warning); margin-right: 10px;"></i> แบรนด์และร้านค้าอื่นๆ ลิงก์ Affiliate
+                </h2>
+                <div class="grid-3" id="other-brand-links-container">
+                    <!-- Loaded dynamically via Javascript -->
+                </div>
+            </div>
+
+            <!-- 9 Popular shops section -->
+            <div class="affiliate-section" id="sec-popular-shops" style="margin-top: 40px;">
+                <h2 style="font-family: var(--font-display); margin-bottom: 20px; color: #fff;">
+                    <i class="fa-solid fa-star" style="color: var(--warning); margin-right: 10px;"></i> 9 ร้านขายยางรถยนต์ยอดนิยมใน Shopee และ Lazada
+                </h2>
+                <div class="grid-3" id="popular-shops-container">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 2. TAB: SIZES -->
+        <div id="tab-sizes-panel" class="tab-content">
+            <h2 style="font-family: var(--font-display); margin-bottom: 10px; color: #fff;">พิกัดแยกตามขนาดยางยอดฮิต</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">รวบรวมลิงก์ Affiliate ตรงไปยังรายการสินค้าตามขนาดยอดนิยมเพื่อการแชร์ลิงก์ที่รวดเร็ว</p>
+            
+            <div class="grid-3" id="desktop-sizes-container">
+                <!-- Loaded dynamically via JS -->
+            </div>
+        </div>
+
+        <!-- 3. TAB: COPYWRITING -->
+        <div id="tab-copywriting" class="tab-content">
+            <h2 style="font-family: var(--font-display); margin-bottom: 10px; color: #fff;">แคปชั่นและคอนเทนต์โปรโมตยอดนิยม</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">คัดลอกไปใช้เป็นคำบรรยายโพสต์สื่อสังคมออนไลน์เพื่อกระตุ้นยอดขาย พร้อมแทรกพิกัดลิงก์แนะนำของคุณได้เลย</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <div class="card-icon"><i class="fa-solid fa-quote-left"></i></div>
+                            <div>
+                                <h3>แคมเปญ: ยางไม่ได้หมดสภาพพร้อมกันทั้ง 4 เส้น</h3>
+                                <span class="card-subtitle">เน้นให้ความรู้คู่ความปลอดภัย (D6P Update)</span>
+                            </div>
+                        </div>
+                        <span class="badge badge-amber">แนะนำ</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="copy-text-area" id="copy-caption-text">ยางไม่ได้หมดสภาพพร้อมกันทั้ง 4 เส้น
+แต่มันจะเริ่มจาก
+
+• เสียงดังขึ้น
+• รถไม่นิ่งเหมือนเดิม
+• เบรกแล้วรู้สึก “ยาว”
+
+สิ่งเหล่านี้
+ไม่ได้เกิดจากรถ
+แต่เกิดจาก “การยึดเกาะที่หายไป”
+
+ยางที่ยังไม่แบน
+ไม่ได้แปลว่ายังพร้อมใช้งานเสมอไป
+
+
+ใครกำลังมองหายางใหม่อยู่ดูพิกัดในเมนท์เลย
+
+
+เราไม่ได้ขับรถคนเดียว
+และยางที่ดี
+ไม่ได้ปกป้องแค่รถ
+แต่มันปกป้อง “ชีวิตในรถ”
+
+
+🔥 ยางใหม่ ราคาส่งจากโรงงาน คุ้มสุดในแอป!
+✅ ส่งฟรีทั่วไทย เก็บปลายทางได้
+📍เช็คโปรโมชั่นล่าสุด 
+
+ใครกำลังมองหายางใหม่อยู่ดูพิกัด
+👉 s.lazada.co.th/s.ZhgP2S
+👉 s.shopee.co.th/6pxvVZ5y94
+
+#ยางรถเก๋ง #ยางSUV #ยางกระบะ #ยางจากโรงงาน #เปลี่ยนยาง #ดูแลรถ #รถยนต์ #คนใช้รถ #ขับขี่ปลอดภัย #มั่นใจทุกเส้นทาง #ส่งฟรีทั่วไทย</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="copyTextById('copy-caption-text', 'คัดลอกแคปชั่นสำเร็จ!')">
+                        <i class="fa-solid fa-copy"></i> คัดลอกแคปชั่นโฆษณานี้
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <div class="card-icon"><i class="fa-solid fa-circle-info"></i></div>
+                            <div>
+                                <h3>วิธีกระตุ้น Engagement ด้วยแคปชั่น</h3>
+                                <span class="card-subtitle">เทคนิคขายดี</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="font-size: 14px; line-height: 1.6; color: var(--text-secondary);">
+                        <p style="margin-bottom: 12px; color: #fff; font-weight: 600;">💡 เคล็ดลับที่ 1: แทรกพิกัดในคอมเมนต์</p>
+                        <p style="margin-bottom: 20px;">การโพสต์ลิงก์โดยตรงบน Facebook ทันทีอาจทำให้ค่าการมองเห็นลดลง แนะนำให้ใช้คำเชิญชวน เช่น <em>"พิกัดยางใหม่คุ้มๆ เช็คในคอมเมนต์แรกเลย👇"</em> แล้วนำลิงก์ไปหย่อนไว้ในเมนต์หลังจากโพสต์ผ่านไป 1-2 นาที</p>
+                        
+                        <p style="margin-bottom: 12px; color: #fff; font-weight: 600;">💡 เคล็ดลับที่ 2: ระบุปัญหาขนาดยางพบบ่อย</p>
+                        <p style="margin-bottom: 20px;">เพิ่มข้อมูลไซส์ยางยอดฮิต เช่น "ใครมองหาไซส์ยอดฮิตอย่าง 185/60R15 หรือ 265/60R18 มีของครบพร้อมราคาส่งโรงงาน"</p>
+                        
+                        <p style="margin-bottom: 12px; color: #fff; font-weight: 600;">💡 เคล็ดลับที่ 3: ใช้ความกลัวเชิงความปลอดภัยที่สร้างสรรค์</p>
+                        <p>ชูจุดขายว่า <strong>"ยางดี ไม่ได้ปกป้องแค่รถ แต่ปกป้องชีวิตในรถ"</strong> จะกระตุ้นการตัดสินใจซื้อได้เร็วกว่าเน้นขายราคาเพียงอย่างเดียว</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. TAB: VISUAL & PROMPTS -->
+        <div id="tab-visual" class="tab-content">
+            <h2 style="font-family: var(--font-display); margin-bottom: 10px; color: #fff;">แนวทางดีไซน์และ Visual Image Prompts (1:1)</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">แนวคิดโครงร่างสำหรับทีมกราฟิกดีไซน์ หรือสามารถคัดลอก Prompts ด้านล่างนี้ไปสั่งงานในระบบ AI Generator เช่น Midjourney, DALL-E, Firefly, หรือ Gemini ได้ทันที</p>
+
+            <div class="journey-container">
+                <div class="journey-header">
+                    <h3 style="font-family: var(--font-display); font-size: 20px; color: #fff; margin-bottom: 5px;">
+                        <i class="fa-solid fa-map" style="color: var(--primary); margin-right: 8px;"></i> คอนเซปต์การสื่อสาร "The Journey Metaphor"
+                    </h3>
+                    <p style="color: var(--text-secondary); font-size: 14px;">การเดินทางเปรียบเทียบสัญญานเตือนเสื่อมสภาพ พาดหัว Tagline: <strong>"คุณอยู่จุดไหน ของเส้นทางยางคุณ?"</strong></p>
+                </div>
+                
+                <div class="journey-steps">
+                    <div class="journey-step step-green">
+                        <span class="step-num" style="color: var(--primary);">จุดเริ่มต้น (สีเขียว)</span>
+                        <h4 style="color: #fff; margin-bottom: 8px; font-size: 15px;">ยางใหม่ ปลอดภัยเต็ม 100</h4>
+                        <p style="font-size: 13px; color: var(--text-secondary);">สื่อถึงยางรถยนต์สภาพสมบูรณ์ พร้อมเกาะถนนอย่างมั่นใจ ปลอดภัยในทุกเส้นทาง</p>
+                    </div>
+                    <div class="journey-step step-warning">
+                        <span class="step-num" style="color: var(--warning);">จุดแจ้งเตือน (สีเหลือง/ส้ม)</span>
+                        <h4 style="color: #fff; margin-bottom: 8px; font-size: 15px;">สัญญาณเตือนภัย 3 ระยะ</h4>
+                        <p style="font-size: 13px; color: var(--text-secondary);">เริ่มมีเสียงดังขึ้น รถไม่นิ่งมีอาการโยนตัว และระยะหยุดเบรกยาวขึ้นอย่างเห็นได้ชัด</p>
+                    </div>
+                    <div class="journey-step step-danger">
+                        <span class="step-num" style="color: var(--danger);">จุดอันตราย (สีแดง)</span>
+                        <h4 style="color: #fff; margin-bottom: 8px; font-size: 15px;">หน้ายางเสื่อม/อันตราย</h4>
+                        <p style="font-size: 13px; color: var(--text-secondary);">การยึดเกาะถนนหายไปอย่างเกือบทั้งหมด ยางแตกลายงา หรือเสื่อมสภาพเสี่ยงระเบิด</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <div class="card-icon"><i class="fa-solid fa-image"></i></div>
+                            <div>
+                                <h3>Prompt 1: สำหรับโฆษณายาง SUV</h3>
+                                <span class="card-subtitle">เน้นความมั่นคง ปลอดภัย ของครอบครัวยามฝนตก</span>
+                            </div>
+                        </div>
+                        <span class="badge badge-purple">8K Realistic</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="copy-text-area" id="prompt-suv">Emotional cinematic advertising image of an SUV tire driving steadily on wet road, soft rain atmosphere, inside the vehicle a blurred silhouette of family sitting calmly, contrast between risky road and calm interior, symbol of protection, stability, and trust, premium automotive safety advertisement style, no text, no logo, 1:1 aspect ratio, ultra realistic, 8K quality, global automotive brand advertising quality, cinematic lighting, shallow depth of field, color grading in dark blue and gray tone, editorial advertising layout, luxury magazine style</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="copyTextById('prompt-suv', 'คัดลอก Prompt SUV สำเร็จ!')">
+                        <i class="fa-solid fa-copy"></i> คัดลอก Prompt ยาง SUV
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <div class="card-icon"><i class="fa-solid fa-image"></i></div>
+                            <div>
+                                <h3>Prompt 2: สำหรับโฆษณายาง Sedan / รถเก๋ง</h3>
+                                <span class="card-subtitle">เน้นความพรีเมียม ขับขี่นุ่มนวล ควบคุมได้ดั่งใจในเมืองตอนกลางคืน</span>
+                            </div>
+                        </div>
+                        <span class="badge badge-purple">8K Realistic</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="copy-text-area" id="prompt-sedan">Ultra-realistic cinematic advertising image of a sedan tire braking smoothly on a wet city road, city lights reflecting on asphalt at night, rain droplets frozen in motion, feeling of calm control and safety, modern sedan silhouette, emotional premium advertising style, symbol of everyday stability and confidence, no text, no logo, square 1:1 format, ultra detailed, 8K, global automotive brand advertising quality, cinematic lighting, shallow depth of field, color grading in dark blue and gray tone, editorial advertising layout, luxury magazine style</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="copyTextById('prompt-sedan', 'คัดลอก Prompt Sedan สำเร็จ!')">
+                        <i class="fa-solid fa-copy"></i> คัดลอก Prompt ยางรถเก๋ง
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. TAB: GUIDE -->
+        <div id="tab-guide" class="tab-content">
+            <h2 style="font-family: var(--font-display); margin-bottom: 10px; color: #fff;">คู่มือการเลือกซื้อและบำรุงรักษายางรถยนต์</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">รวบรวมจุดเด่นของแบรนด์ชั้นนำในประเทศ พร้อมทั้งรุ่นแนะนำประกอบการตัดสินใจของลูกค้าและผู้แชร์ข้อมูล</p>
+
+            <div class="grid-3" id="guide-brands-container">
+                <!-- Loaded dynamically via JS -->
+            </div>
+            
+            <div class="card" style="margin-top: 30px;">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <div class="card-icon"><i class="fa-solid fa-wrench"></i></div>
+                        <div>
+                            <h3>เคล็ดลับการตรวจสอบและการบำรุงรักษายางรถยนต์</h3>
+                            <span class="card-subtitle">ข้อมูลน่ารู้ในการตอบคำถามลูกค้า</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    <div>
+                        <strong style="color: #fff; display: block; margin-bottom: 8px;">📏 ตรวจเช็คขนาดให้เป๊ะ</strong>
+                        แนะนำลูกค้าให้ดูขนาดตัวยางเดิมที่ปั๊มด้านข้างแก้มยาง หรือสติกเกอร์ตรงขอบเสาประตูฝั่งคนขับ ขนาดที่พบบ่อยได้แก่ <strong>185/60R15</strong> (รถ Eco Car) หรือ <strong>265/60R18</strong> (รถกระบะ/SUV)
+                    </div>
+                    <div>
+                        <strong style="color: #fff; display: block; margin-bottom: 8px;">⏱️ ระยะเวลาเปลี่ยนยางที่เหมาะสม</strong>
+                        โดยมาตรฐานการใช้งานทั่วไปควรเปลี่ยนยางที่ระยะทางประมาณ <strong>40,000 - 50,000 กิโลเมตร</strong> หรือหลังจากติดตั้งใช้งานไป <strong>3 - 5 ปี</strong> ขึ้นกับความแข็งของเนื้อยางเป็นหลัก
+                    </div>
+                    <div>
+                        <strong style="color: #fff; display: block; margin-bottom: 8px;">สลับยางยืดอายุการใช้งาน</strong>
+                        การสลับยางหน้า-หลัง และถ่วงล้อทุกๆ <strong>10,000 กิโลเมตร</strong> จะช่วยให้หน้ายางรับน้ำหนักเท่าๆ กัน ดอกยางเสื่อมสภาพเสมอกันทั้ง 4 เส้น
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // June 2026 Updated Database (D6P sub_aff_id campaign)
+        const affiliateBrands = [
+            { name: "Dunlop (ดันลอป)", code: "AppDUNLOP", lazada: "https://s.lazada.co.th/s.Z2rmYE?cc", shopee: "https://s.shopee.co.th/4Aun5IvrHN", type: "sk-brands" },
+            { name: "Deestone (ดีสโตน)", code: "AppDEESTONE", lazada: "https://s.lazada.co.th/s.Zhdeok", shopee: "https://s.shopee.co.th/3LLg5rbz2D", type: "sk-brands" },
+            { name: "Bridgestone (บริดจสโตน)", code: "AppBRIDGESTONE", lazada: "https://s.lazada.co.th/s.Z2rNhV?cc", shopee: "https://s.shopee.co.th/7fUfGBogX0", type: "sk-brands" },
+            { name: "Goodyear (กู๊ดเยียร์)", code: "AppGOODYEAR", lazada: "https://s.lazada.co.th/s.Z2rNMm?cc", shopee: "https://s.shopee.co.th/5q3150jjhg", type: "sk-brands" },
+            { name: "Yokohama (โยโกฮาม่า)", code: "AppYOKOHAMA", lazada: "https://s.lazada.co.th/s.Z2IZSh?cc", shopee: "https://s.shopee.co.th/2B66M9bY1K", type: "sk-brands" },
+            { name: "Blackhawk (แบล็คฮอว์ก)", code: "AppBLACKHAWK", lazada: "https://s.lazada.co.th/s.Z2IZ9b?cc", shopee: "https://s.shopee.co.th/10u8y3RzTq", type: "sk-brands" },
+            { name: "Dayton (เดย์ตัน)", code: "AppDAYTON", lazada: "https://s.lazada.co.th/s.Z2IZoP?cc", shopee: "https://s.shopee.co.th/9KYGQlj7q4", type: "sk-brands" },
+            { name: "Hankook (แฮนคุก)", code: "AppHANKOOK", lazada: "https://s.lazada.co.th/s.Z2IZrB?cc", shopee: "https://s.shopee.co.th/5fey43NlYH", type: "sk-brands" },
+            { name: "Goodride (กู๊ดไรด์)", code: "AppGOODRIDE", lazada: "https://s.lazada.co.th/s.Z2IZvv?cc", shopee: "https://s.shopee.co.th/1g8pIj6Ugy", type: "sk-brands" },
+            { name: "Triangle (ไตรแองเกิล)", code: "AppTRIANGLE", lazada: "https://s.lazada.co.th/s.Z2I0aq?cc", shopee: "https://s.shopee.co.th/2LOW5yyxFy", type: "sk-brands" },
+            { name: "Falken (ฟอลเกน)", code: "AppFALKEN", lazada: "https://s.lazada.co.th/s.Z2I0X2?cc", shopee: "https://s.shopee.co.th/gGI6wiyTC", type: "sk-brands" },
+            { name: "Kumho (คึมโฮ)", code: "AppKUMHO", lazada: "https://s.lazada.co.th/s.Z2I04b?cc", shopee: "https://s.shopee.co.th/7fQ2Rq03ZX", type: "sk-brands" },
+            { name: "Arisun (อาริซัน)", code: "AppARISUN", lazada: "https://s.lazada.co.th/s.ZTRhfv", shopee: "https://s.shopee.co.th/10bJlsPdI", type: "sk-brands" },
+            { name: "Dcenti (ดีเซนติ)", code: "AppDCENTI", lazada: "https://s.lazada.co.th/s.Z2IbS5?cc", shopee: "https://s.shopee.co.th/3fttgXa4Su", type: "sk-brands" },
+            { name: "Nexen (เน็กเซ็น)", code: "AppNEXEN", lazada: "https://s.lazada.co.th/s.Z2IbPV?cc", shopee: "https://s.shopee.co.th/AUoquMU6IU", type: "sk-brands" },
+            { name: "BFGoodrich (บีเอฟกู๊ดริช)", code: "AppBFGoodrich", lazada: "https://s.lazada.co.th/s.Z2Iboe?cc", shopee: "https://s.shopee.co.th/3fttgbciXw", type: "other-brands" },
+            { name: "NAZZ (แนสซ์)", code: "AppNAZZ", lazada: "https://c.lazada.co.th/t/c.2lfGS5?sub_aff_id=D3P", shopee: "https://s.shopee.co.th/4qAUA0jabm", type: "other-brands" },
+            { name: "Michelin (มิชลิน)", code: "AppMICHELIN", lazada: "https://s.lazada.co.th/s.zLT47?cc", shopee: "https://s.shopee.co.th/5AihBJN3PE", type: "other-brands" },
+            { name: "XCD2 ขอบ 14", code: "AppXCD2_14", lazada: "https://s.lazada.co.th/s.zLEqx?cc", shopee: "https://s.shopee.co.th/70ALe7WZvr", type: "other-brands" },
+            { name: "XCD2 ขอบ 15", code: "AppXCD2_15", lazada: "https://s.lazada.co.th/s.zLEHc?cc", shopee: "https://s.shopee.co.th/50PHGYoQU5", type: "other-brands" },
+            { name: "Sumaxx (ซูแมกซ์)", code: "SUMAXX", lazada: "https://s.lazada.co.th/s.BllRP?cc", shopee: "https://s.shopee.co.th/20kCIpMFIh", type: "other-brands" },
+            { name: "Nitto (นิตโตะ)", code: "NITTO", lazada: "https://s.lazada.co.th/s.BlljC?cc", shopee: "https://s.shopee.co.th/5AhE4uIEUN", type: "other-brands" },
+            { name: "Toyo (โตโย)", code: "TOYO", lazada: "https://s.lazada.co.th/s.BllP2?cc", shopee: "https://s.shopee.co.th/8Uxg36LFcx", type: "other-brands" },
+            { name: "Landsail (แลนด์เซล)", code: "LANDSAIL", lazada: "https://s.lazada.co.th/s.BllON?cc", shopee: "https://s.shopee.co.th/50Nnsj72gx", type: "other-brands" }
+        ];
+
+        const popularShops = [
+            { name: "SK AUTO SERVICE", lazada: "s.lazada.co.th/s.ZhgP2S", shopee: "s.shopee.co.th/6pxvVZ5y94" },
+            { name: "KODANGYANG", lazada: "s.lazada.co.th/s.ZhT32Y", shopee: "s.shopee.co.th/8KkPxrE8k6" },
+            { name: "B-Quik", lazada: "s.lazada.co.th/s.ZhT3if", shopee: "s.shopee.co.th/30kdO1jQ95" },
+            { name: "SPEED109", lazada: "s.lazada.co.th/s.ZhT3IR", shopee: "s.shopee.co.th/10joitzfct" },
+            { name: "J.S. Auto", lazada: "s.lazada.co.th/s.ZhT3Ah", shopee: "s.shopee.co.th/5VFN0hHsJn" },
+            { name: "Bravostone", lazada: "s.lazada.co.th/s.ZhTe2Y", shopee: "s.shopee.co.th/5AjW8IDYcC" },
+            { name: "YINGTHAWEE AUTO TIRE", lazada: "s.lazada.co.th/s.ZhTekr", shopee: "s.shopee.co.th/8pSg3GJJx4" },
+            { name: "KENKING", lazada: "s.lazada.co.th/s.ZhTeIN", shopee: "s.shopee.co.th/5VCE5oB7sp" },
+            { name: "TIRE-OFF", lazada: "s.lazada.co.th/s.ZhTewj", shopee: "s.shopee.co.th/AUau2YcFwG" }
+        ];
+
+        const updatedSizes = [
+            { size: "185/60R15", lazada: "https://s.lazada.co.th/s.ZhbmNR?c=a&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/5AphjsK8dI" },
+            { size: "195/55R15", lazada: "https://s.lazada.co.th/s.ZhW0iS?c=a&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "195/60R15", lazada: "https://s.lazada.co.th/s.ZhbPNg?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/8KmjVlcVE8" },
+            { size: "205/55R16", lazada: "https://s.lazada.co.th/s.ZhWZEV?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "215/70R15", lazada: "https://s.lazada.co.th/s.ZhWZBC?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "245/45R18", lazada: "https://s.lazada.co.th/s.ZhWZNS?c=a&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "265/60R18", lazada: "https://s.lazada.co.th/s.ZhWZL1?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "265/65R17", lazada: "https://s.lazada.co.th/s.ZhWZlR?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "30x9.5R15", lazada: "https://s.lazada.co.th/s.ZhW04Y?c=a&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" },
+            { size: "31x10.5R15", lazada: "https://s.lazada.co.th/s.ZhW0Xq?c=b&sub_aff_id=D6P", shopee: "https://s.shopee.co.th/6pxvVZ5y94" }
+        ];
+
+        const brandGuides = [
+            {
+                name: "Bridgestone (บริดจสโตน)",
+                strength: "ทนทาน เกาะถนนแห้ง-เปียก ยอดเยี่ยม ประสิทธิภาพสมดุลดีเลิศ ประหยัดน้ำมัน",
+                models: [
+                    "Potenza Sport – สำหรับรถสมรรถนะสูง อารมณ์สปอร์ตจัดเต็ม",
+                    "Turanza 6 – นุ่มสบายสูงสุด และเกาะถนนในวันฝนตกดีเยี่ยม",
+                    "Dueler A/T 001 – ยางเกรด SUV และรถกระบะ วิ่งได้ทั้งทางเรียบและทางฝุ่น"
+                ]
+            },
+            {
+                name: "Michelin (มิชลิน)",
+                strength: "นุ่มเงียบเหนือชั้น ยืนหนึ่งเรื่องอายุการใช้งานที่ยาวนาน คุ้มค่าในระยะยาวอย่างมาก",
+                models: [
+                    "Primacy 5 – สบายเงียบ รีดน้ำและเกาะผิวทางเปียกอย่างมั่นใจ",
+                    "Primacy SUV – เสริมความนุ่มและระบบความปลอดภัยสำหรับรถเอนกประสงค์ SUV",
+                    "XCD2 – ยางแกร่งสำหรับกระบะใช้งานขนส่งและรถตู้ทั่วไป"
+                ]
+            },
+            {
+                name: "Continental (คอนติเนนทอล)",
+                strength: "เทคโนโลยีเยอรมันจัดเต็ม คุมการขับขี่เกาะถนนดีเยื่ยม ลดเสียงแทรกห้องโดยสาร",
+                models: [
+                    "UC7 – เหมาะสำหรับการวิ่งใช้งานทั่วไปในเมืองและเดินทางข้ามจังหวัด",
+                    "ContiCrossContact LX2 – สำหรับรถ SUV พิกัดขับขี่ทนทานเน้นเกาะถนนเปียก"
+                ]
+            },
+            {
+                name: "Yokohama (โยโกฮาม่า)",
+                strength: "ยางญี่ปุ่นคุณภาพ ตอบโจทย์ความนุ่มเงียบ ถนอมพลังงาน มีรุ่นเฉพาะรองรับเทคโนโลยีรถไฟฟ้า (EV)",
+                models: [
+                    "ADVAN dB V553 – สุนทรียภาพแห่งความนุ่มเงียบ เงียบสงัดตลอดการขับขี่",
+                    "BluEarth-GT AE51 – ช่วยถนอมน้ำมัน วิ่งลื่นไหลและรีดน้ำเด่น เหมาะกับรถเก๋ง"
+                ]
+            },
+            {
+                name: "Dunlop (ดันลอป)",
+                strength: "ราคาสบายกระเป๋า เข้าถึงง่าย สมรรถนะเทียบราคาแล้วสุดคุ้มค่า นุ่มเงียบเกาะถนนกำลังดี",
+                models: [
+                    "SP Sport LM705 – รุ่นคุ้มราคา นุ่มเงียบ ใช้งานได้หลากหลายรุ่นยอดนิยม",
+                    "Grandtrek AT5 – ยาง A/T แข็งแกร่งสำหรับกระบะ/SUV พร้อมลุยทางฝุ่นดิน"
+                ]
+            },
+            {
+                name: "Goodyear (กู๊ดเยียร์)",
+                strength: "ฐานผลิตในไทยกว่า 50 ปี ทนทานต่อสภาพถนน เกาะถนนแห้งเปียกดี ประหยัดน้ำมัน เหมาะกับกระบะ Revo, Ranger",
+                models: [
+                    "Assurance TripleMax 2 – ยางรถเก๋ง ระยะเบรกบนถนนเปียกสั้น มั่นใจสูง",
+                    "Wrangler AT SilentTrac – ยาง SUV ขาลุย บล็อกดอกยางช่วยซับเสียงรบกวน",
+                    "EfficientGrip Performance SUV – สำหรับ PPV/SUV หรู เน้นเกาะถนนเงียบนุ่มและช่วยประหยัดน้ำมัน"
+                ]
+            }
+        ];
+
+        // Google Sheet CSV Links (เปลี่ยนมาดึงจากไฟล์ตารางในเครื่องแบบออฟไลน์)
+        const GOOGLE_SHEET_LINKS = {
+            brands: "brands.csv", // ลิงก์ CSV แท็บ Brands
+            sizes: "sizes.csv",  // ลิงก์ CSV แท็บ Sizes
+            shops: "shops.csv"   // ลิงก์ CSV แท็บ Shops
+        };
+
+        // CSV parsing function
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n');
+            if (lines.length === 0) return [];
+            
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+            const result = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                const currentLine = [];
+                let inQuotes = false;
+                let currentValue = '';
+                
+                for (let j = 0; j < lines[i].length; j++) {
+                    const char = lines[i][j];
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        currentLine.push(currentValue.trim());
+                        currentValue = '';
+                    } else {
+                        currentValue += char;
+                    }
+                }
+                currentLine.push(currentValue.trim());
+                
+                const obj = {};
+                headers.forEach((header, index) => {
+                    let val = currentLine[index] || '';
+                    obj[header] = val.replace(/^"|"$/g, '').trim();
+                });
+                result.push(obj);
+            }
+            return result;
+        }
+
+        // Fetch data from Google Sheets with fallbacks
+        async function loadSheetData() {
+            // Load Brands
+            if (GOOGLE_SHEET_LINKS.brands) {
+                try {
+                    const res = await fetch(GOOGLE_SHEET_LINKS.brands);
+                    if (res.ok) {
+                        const csv = await res.text();
+                        const parsed = parseCSV(csv);
+                        if (parsed.length > 0 && parsed[0].name) {
+                            affiliateBrands.length = 0; // Clear and replace
+                            parsed.forEach(p => affiliateBrands.push(p));
+                            console.log('Successfully synced Brands from Google Sheets.');
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to sync Brands from Google Sheets, using fallback database.', e);
+                }
+            }
+
+            // Load Sizes
+            if (GOOGLE_SHEET_LINKS.sizes) {
+                try {
+                    const res = await fetch(GOOGLE_SHEET_LINKS.sizes);
+                    if (res.ok) {
+                        const csv = await res.text();
+                        const parsed = parseCSV(csv);
+                        if (parsed.length > 0 && parsed[0].size) {
+                            updatedSizes.length = 0;
+                            parsed.forEach(p => updatedSizes.push(p));
+                            console.log('Successfully synced Sizes from Google Sheets.');
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to sync Sizes from Google Sheets, using fallback database.', e);
+                }
+            }
+
+            // Load Shops
+            if (GOOGLE_SHEET_LINKS.shops) {
+                try {
+                    const res = await fetch(GOOGLE_SHEET_LINKS.shops);
+                    if (res.ok) {
+                        const csv = await res.text();
+                        const parsed = parseCSV(csv);
+                        if (parsed.length > 0 && parsed[0].name) {
+                            popularShops.length = 0;
+                            parsed.forEach(p => popularShops.push(p));
+                            console.log('Successfully synced Shops from Google Sheets.');
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to sync Shops from Google Sheets, using fallback database.', e);
+                }
+            }
+
+            // Render all dynamic elements
+            renderAffiliateBrands(affiliateBrands);
+            renderPopularShops(popularShops);
+            renderSizesDesktop(updatedSizes);
+            instantBrandSearch();
+        }
+
+        // Load dashboard contents
+        window.onload = function() {
+            loadSheetData();
+            renderBrandGuides(brandGuides);
+        };
+
+        // Brand tire images mapping using actual files from "Banners & Creatives" folder
+        const brandImages = {
+            "Dunlop (ดันลอป)": "Banners & Creatives/Dunlop Grandtrek AT5.webp",
+            "Deestone (ดีสโตน)": "Banners & Creatives/deestone-premium-tourer-ra01-b-aaa-2__38008.jpg",
+            "Bridgestone (บริดจสโตน)": "Banners & Creatives/ECOPIA_EP150.jpg",
+            "Goodyear (กู๊ดเยียร์)": "Banners & Creatives/Goodyear Wrangler AT SilentTrac.jpg",
+            "Yokohama (โยโกฮาม่า)": "Banners & Creatives/YOKOHAMA GEOLANDAR X-AT.png",
+            "Triangle (ไตรแองเกิล)": "Banners & Creatives/TRIANGLE EffeXSport TH202.png",
+            "Goodride (กู๊ดไรด์)": "Banners & Creatives/goodride-sa-37-f-f-l462x600-sk7.png",
+            "Michelin (มิชลิน)": "Banners & Creatives/ECOPIA_EP150_side.jpg",
+            "BFGoodrich (บีเอฟกู๊ดริช)": "Banners & Creatives/DUELER ALL-TERRAIN A:T002.png",
+            "default": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23111827' stroke='%2310b981' stroke-width='6'/><circle cx='50' cy='50' r='20' fill='none' stroke='%233b82f6' stroke-width='4'/></svg>"
+        };
+
+        function getBrandImage(brandName) {
+            for (let key in brandImages) {
+                if (brandName.toLowerCase().includes(key.split(' ')[0].toLowerCase())) {
+                    return brandImages[key];
+                }
+            }
+            return brandImages["default"];
+        }
+
+        function renderAffiliateBrands(items) {
+            const skContainer = document.getElementById('brand-links-container');
+            const otherContainer = document.getElementById('other-brand-links-container');
+            skContainer.innerHTML = '';
+            otherContainer.innerHTML = '';
+            
+            items.forEach(brand => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('data-search', `${brand.name.toLowerCase()} ${brand.code.toLowerCase()}`);
+                card.setAttribute('data-category', brand.type);
+                
+                const imgPath = getBrandImage(brand.name);
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                            <div>
+                                <h3>${brand.name}</h3>
+                                <span class="card-subtitle">${brand.code}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-media" style="width: 100%; height: 160px; overflow: hidden; border-radius: 10px; margin-bottom: 15px; background: #0b0f19; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center;">
+                        <img src="${imgPath}" alt="${brand.name}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size: 13px; color: var(--text-secondary);">ลิงก์ Affiliate แนะนำเพื่อรับค่าคอมมิชชั่นเมื่อเกิดการซื้อขาย</p>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-shopee" onclick="copyToClipboard('${brand.shopee}', 'คัดลอกลิงก์ Shopee: ${brand.name} สำเร็จ!')">
+                            <i class="fa-solid fa-bag-shopping"></i> Shopee
+                        </button>
+                        <button class="btn btn-lazada" onclick="copyToClipboard('${brand.lazada}', 'คัดลอกลิงก์ Lazada: ${brand.name} สำเร็จ!')">
+                            <i class="fa-solid fa-shopping-cart"></i> Lazada
+                        </button>
+                    </div>
+                `;
+                
+                if (brand.type === 'sk-brands') {
+                    skContainer.appendChild(card);
+                } else {
+                    otherContainer.appendChild(card);
+                }
+            });
+        }
+
+        function renderPopularShops(shops) {
+            const container = document.getElementById('popular-shops-container');
+            container.innerHTML = '';
+            shops.forEach(shop => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('data-search', `${shop.name.toLowerCase()} shopee lazada ร้านยอดนิยม`);
+                card.setAttribute('data-category', 'popular-shops');
+
+                // format protocol
+                const shopeeLink = shop.shopee.startsWith('http') ? shop.shopee : 'https://' + shop.shopee;
+                const lazadaLink = shop.lazada.startsWith('http') ? shop.lazada : 'https://' + shop.lazada;
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <div class="card-icon"><i class="fa-solid fa-store"></i></div>
+                            <div>
+                                <h3>${shop.name}</h3>
+                                <span class="card-subtitle">9 ร้านขายยางรถยนต์ยอดนิยม</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size: 13px; color: var(--text-secondary);">รีวิวดี คะแนนสูง ได้สินค้าของแท้แน่นอน</p>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-shopee" onclick="copyToClipboard('${shopeeLink}', 'คัดลอกลิงก์ร้าน ${shop.name} บน Shopee สำเร็จ!')">
+                            <i class="fa-solid fa-bag-shopping"></i> Shopee
+                        </button>
+                        <button class="btn btn-lazada" onclick="copyToClipboard('${lazadaLink}', 'คัดลอกลิงก์ร้าน ${shop.name} บน Lazada สำเร็จ!')">
+                            <i class="fa-solid fa-shopping-cart"></i> Lazada
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderSizesDesktop(sizes) {
+            const container = document.getElementById('desktop-sizes-container');
+            container.innerHTML = '';
+            sizes.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('data-search', `${item.size} ยางแยกขนาด`);
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <div class="card-icon"><i class="fa-solid fa-expand"></i></div>
+                            <div>
+                                <h3>ยางขนาด ${item.size}</h3>
+                                <span class="card-subtitle">รหัสแคมเปญ D6P</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size: 13px; color: var(--text-secondary);">กดคัดลอกลิงก์เพื่อส่งให้ลูกค้าที่ถามหาขนาดยางเฉพาะรุ่นนี้</p>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-shopee" onclick="copyToClipboard('${item.shopee}', 'คัดลอก Shopee ขนาด ${item.size} สำเร็จ!')">
+                            <i class="fa-solid fa-bag-shopping"></i> Shopee
+                        </button>
+                        <button class="btn btn-lazada" onclick="copyToClipboard('${item.lazada}', 'คัดลอก Lazada ขนาด ${item.size} สำเร็จ!')">
+                            <i class="fa-solid fa-shopping-cart"></i> Lazada
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderBrandGuides(guides) {
+            const container = document.getElementById('guide-brands-container');
+            container.innerHTML = '';
+            guides.forEach(guide => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('data-search', `${guide.name.toLowerCase()} ${guide.strength.toLowerCase()}`);
+                
+                let modelsHTML = '';
+                guide.models.forEach(model => {
+                    modelsHTML += `<li>${model}</li>`;
+                });
+
+                card.innerHTML = `
+                    <div>
+                        <div class="guide-brand-header">
+                            <h3 style="color: var(--primary); font-family: var(--font-display);">${guide.name}</h3>
+                            <span class="badge badge-purple">แนะนำ</span>
+                        </div>
+                        <p style="font-size: 13px; color: #fff; margin-bottom: 12px; font-weight: 500;">
+                            <strong>จุดเด่น:</strong> ${guide.strength}
+                        </p>
+                        <p style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; border-top: 1px solid var(--card-border); padding-top: 10px; margin-top: 10px;">
+                            รุ่นยางรถยนต์แนะนำยอดฮิต:
+                        </p>
+                        <ul class="guide-highlights">
+                            ${modelsHTML}
+                        </ul>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-copy" style="width: 100%;" onclick="copyGuideText('${guide.name}', '${guide.strength}', ${JSON.stringify(guide.models)})">
+                            <i class="fa-solid fa-copy"></i> คัดลอกข้อมูลแบรนด์นี้
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Instant Brand Search & Quick Filter
+        function instantBrandSearch() {
+            const query = document.getElementById('brand-quick-search').value.toLowerCase().trim();
+            const container = document.getElementById('instant-brand-results');
+            container.innerHTML = '';
+            
+            if (query === '') {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); font-size: 13px; padding: 20px; background: rgba(255,255,255,0.01); border: 1px dashed var(--card-border); border-radius: 12px; width: 100%;">
+                        <i class="fa-solid fa-keyboard" style="margin-right: 6px;"></i> กรุณาพิมพ์ชื่อแบรนด์ยาง หรือคลิกปุ่มแบรนด์แนะนำด้านบนเพื่อดูลิงก์ทันที...
+                    </div>
+                `;
+                return;
+            }
+            
+            const matches = affiliateBrands.filter(b => 
+                b.name.toLowerCase().includes(query) || 
+                b.code.toLowerCase().includes(query)
+            );
+            
+            if (matches.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; color: var(--danger); font-size: 13px; padding: 20px; background: rgba(239, 68, 68, 0.02); border: 1px dashed rgba(239, 68, 68, 0.2); border-radius: 12px; width: 100%;">
+                        <i class="fa-solid fa-circle-xmark" style="margin-right: 6px;"></i> ไม่พบข้อมูลแบรนด์ที่ตรงกับ "${document.getElementById('brand-quick-search').value}"
+                    </div>
+                `;
+                return;
+            }
+            
+            matches.forEach(brand => {
+                const item = document.createElement('div');
+                item.className = 'copy-card';
+                item.style.background = 'rgba(255, 255, 255, 0.02)';
+                item.style.padding = '16px';
+                item.style.borderRadius = '12px';
+                item.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+                item.style.display = 'flex';
+                item.style.flexDirection = 'column';
+                item.style.gap = '12px';
+                item.style.justifyContent = 'space-between';
+                item.style.alignItems = 'stretch';
+                
+                item.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span style="font-size: 15px; font-weight: 700; color: #fff;">${brand.name}</span>
+                            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">${brand.code}</div>
+                        </div>
+                        <span class="badge badge-green" style="font-size: 9px; padding: 2px 6px;">ผลการค้นหา</span>
+                    </div>
+                    <div class="action-row" style="margin-top: 4px;">
+                        <button class="btn btn-shopee" style="padding: 8px; font-size: 12px;" onclick="copyToClipboard('${brand.shopee}', 'คัดลอก Shopee: ${brand.name} แล้ว!')">
+                            <i class="fa-solid fa-copy"></i> Copy Shopee
+                        </button>
+                        <button class="btn btn-lazada" style="padding: 8px; font-size: 12px;" onclick="copyToClipboard('${brand.lazada}', 'คัดลอก Lazada: ${brand.name} แล้ว!')">
+                            <i class="fa-solid fa-copy"></i> Copy Lazada
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+        
+        function setBrandSearch(val) {
+            document.getElementById('brand-quick-search').value = val;
+            instantBrandSearch();
+        }
+
+        // Tab Switch logic
+        function switchTab(tabId) {
+            // Remove active classes
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected
+            const eventTarget = [...document.querySelectorAll('.tab-btn')].find(btn => btn.getAttribute('onclick').includes(tabId));
+            if(eventTarget) eventTarget.classList.add('active');
+            
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Sub-tabs filters for affiliate category
+        function filterAffiliateCategory(category) {
+            // style toggle
+            document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const eventTarget = [...document.querySelectorAll('.sub-tab-btn')].find(btn => btn.getAttribute('onclick').includes(`'${category}'`));
+            if(eventTarget) eventTarget.classList.add('active');
+
+            // section displays
+            const sections = {
+                'all': ['sec-sk-main', 'sec-sk-category', 'sec-sk-brands', 'sec-other-brands', 'sec-popular-shops'],
+                'sk-main': ['sec-sk-main'],
+                'sk-category': ['sec-sk-category'],
+                'sk-brands': ['sec-sk-brands'],
+                'other-brands': ['sec-other-brands'],
+                'popular-shops': ['sec-popular-shops']
+            };
+
+            const activeSections = sections[category] || sections['all'];
+
+            // show/hide elements
+            ['sec-sk-main', 'sec-sk-category', 'sec-sk-brands', 'sec-other-brands', 'sec-popular-shops'].forEach(secId => {
+                const sec = document.getElementById(secId);
+                if (sec) {
+                    if(activeSections.includes(secId)) {
+                        sec.style.display = 'block';
+                    } else {
+                        sec.style.display = 'none';
+                    }
+                }
+            });
+
+            // Card filter logic inside the cards (if all shown, show all sub-elements; if filtered, only show corresponding)
+            const cards = document.querySelectorAll('#tab-affiliate .card, #tab-affiliate .copy-card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                
+                if (category === 'all') {
+                    card.style.display = 'flex';
+                } else {
+                    if (cardCat === category || card.classList.contains('copy-card') && category === 'sk-main') {
+                        card.style.display = 'flex';
+                    } else if (cardCat && cardCat !== category) {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Clipboard Copy functions
+        function copyToClipboard(text, successMsg) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(successMsg || 'คัดลอกลงคลิปบอร์ดแล้ว!');
+                }).catch(err => {
+                    fallbackCopyDesktop(text, successMsg);
+                });
+            } else {
+                fallbackCopyDesktop(text, successMsg);
+            }
+        }
+
+        function fallbackCopyDesktop(text, successMsg) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast(successMsg || 'คัดลอกลงคลิปบอร์ดแล้ว!');
+                } else {
+                    window.prompt("คัดลอกข้อความที่นี่:", text);
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                window.prompt("คัดลอกข้อความที่นี่:", text);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function copyTextById(elementId, successMsg) {
+            const text = document.getElementById(elementId).innerText || document.getElementById(elementId).value;
+            copyToClipboard(text, successMsg);
+        }
+
+        // Helper to copy guide
+        function copyGuideText(name, strength, models) {
+            let text = `${name}\nจุดเด่น: ${strength}\nรุ่นแนะนำ:\n`;
+            models.forEach(m => {
+                text += `• ${m}\n`;
+            });
+            copyToClipboard(text, `คัดลอกข้อมูล ${name} สำหรับแชร์แล้ว!`);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Search Filter
+        function filterContent() {
+            const query = document.getElementById('global-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.card, .copy-card');
+            
+            cards.forEach(card => {
+                const searchData = card.getAttribute('data-search') ? card.getAttribute('data-search').toLowerCase() : '';
+                const cardTitle = card.querySelector('h3') ? card.querySelector('h3').innerText.toLowerCase() : '';
+                
+                if (searchData.includes(query) || cardTitle.includes(query)) {
+                    card.style.display = card.classList.contains('copy-card') ? 'flex' : 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // If query is empty, reset sub-tab view correctly
+            if (query === '') {
+                const activeSubTab = document.querySelector('.sub-tab-btn.active');
+                if(activeSubTab) {
+                    const onClickStr = activeSubTab.getAttribute('onclick');
+                    const match = onClickStr.match(/'([^']+)'/);
+                    if (match) filterAffiliateCategory(match[1]);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
